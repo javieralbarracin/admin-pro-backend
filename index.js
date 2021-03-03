@@ -12,21 +12,20 @@ const app = express()
 //Configurar cors
 app.use(cors())
 
+//Lectura y parseo del body - poner antes del ruteo
+app.use( express.json() );
+
 //Base de Datos
 dbConnection();
 
 //pass: Marzo.2020
 //dbUser
 //cnn: 'mongodb+srv://dbUser:*****@cluster0.6oao3.mongodb.net/hospitaldb?authSource=admin&replicaSet=atlas-l39772-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true'
+
 //Rutas
+app.use('/api/usuarios',require('./routes/usuarios'))
+app.use('/api/login',require('./routes/auth'))
 
-app.get( '/', (request,respone)=>{
-    respone.json({
-        ok:true,
-        msg:'Hola mundo'
-    });
-
-});
 
 
 //levantar el server en un puerto especifico
