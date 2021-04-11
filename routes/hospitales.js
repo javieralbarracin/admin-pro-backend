@@ -2,37 +2,37 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 const { validarCampos } = require('../middlewares/validar-campo');
-const { obtenerUsuarios, crearUsuario, actualizarUsuario,eliminarUsuario } = require('../controllers/usuarios');
+const { obtenerHospitales, crearHospital, actualizarHospital,eliminarHospital } = require('../controllers/hospitales');
 const { validarJWT } = require('../middlewares/validar-jwt');
-
+/***
+ * Hospitales
+ * Path: '/api/hospitales'
+ */
 const router = Router();
 
 router.get('/', 
         validarJWT,
-        obtenerUsuarios
+        obtenerHospitales
 );
 router.post('/', 
     [
      check('nombre','El nombre es obligatorio').notEmpty(),
-     check('password','El password es obligatorio').notEmpty(),
-     check('email','El email es obligatorio').isEmail(),
      validarCampos,
     ],
-    crearUsuario
+    validarJWT, 
+    crearHospital
 );
 router.put('/:id', 
     [
      validarJWT,
      check('nombre','El nombre es obligatorio').notEmpty(),
-     check('password','El password es obligatorio').notEmpty(),
-     check('email','El email es obligatorio').isEmail(),
      validarCampos,
     ],
-    actualizarUsuario
+    actualizarHospital
 );
 router.delete('/:id',
     validarJWT, 
-    eliminarUsuario
+    eliminarHospital
 );
 
 module.exports = router;

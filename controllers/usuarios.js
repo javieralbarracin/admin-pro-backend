@@ -1,16 +1,31 @@
 const { response } = require('express');
 const bcrypt  = require('bcryptjs');
 
-const Usuario = require('../models/usuarios');
+const Usuario = require('../models/usuario');
 const { generarJWT } = require('../helpers/jwt');
 
-const getUsuarios = async (req,respone)=>{
+const obtenerUsuarios = async (req,res=response)=>{
 
-    const usuarios = await Usuario.find({},'nombre email role')
+    const desde = Number(req.query.desde) || 0;
 
-    respone.json({
+    // const usuarios = await Usuario.find({},'nombre email role')
+    //                                 .skip(desde)
+    //                                 .limit(10)
+
+    // const total = await Usuario.count();
+
+    const [ usuarios, total ] = await Promise.all([
+        Usuario.find({},'nombre email role google')
+                                    .skip(desde)
+                                    .limit(10),
+        Usuario.count()                           
+
+    ]);
+
+    res.json({
         ok:true,
-        usuarios
+        usuarios,
+        total
     });
 
 }
@@ -122,7 +137,7 @@ const eliminarUsuario = async(req,res=response)=>{
     }
 }
 module.exports = {
-    getUsuarios,
+    obtenerUsuarios,
     crearUsuario,
     actualizarUsuario,
     eliminarUsuario
