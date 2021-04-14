@@ -4,13 +4,15 @@ const hospital = require('../models/hospital');
 const Medico = require('../models/medico');
 
 const obtenerMedicos = async (req,res=response)=>{
+    
+    //desestructurar campos a ocultar
     const medicos = await Medico.find()
                                 .populate('usuario','nombre email')
-                                .populate('hospital', 'nombre')
+                                .populate('hospital', 'nombre img')
 
     res.json({
         ok:true,
-        medicos: medicos
+        data: medicos
     });
 
 }

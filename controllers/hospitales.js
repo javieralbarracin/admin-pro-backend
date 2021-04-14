@@ -4,7 +4,7 @@ const Hospital = require('../models/hospital');
 
 const obtenerHospitales = async (req,res=response)=>{
 
-    const hospitales = await Hospital.find({},'nombre')
+    const hospitales = await Hospital.find({},'nombre img')
 
     res.json({
         ok:true,

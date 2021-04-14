@@ -7,7 +7,8 @@ const MedicoSchema = Schema({
         unique:true
     },
     img:{
-        type:String
+        type:String,
+        required:false
     },
     usuario:{
         type:Schema.Types.ObjectId,
@@ -22,8 +23,8 @@ const MedicoSchema = Schema({
 }, { collection: 'medicos' }) 
 
 MedicoSchema.method('toJSON', function(){
-    const { _v, ...object } = this.toObject();
+    const { __v, ...object } = this.toObject();
     return object;
 })
 
-module.exports = model('Medico',MedicoSchema)
+module.exports = model('Medico', MedicoSchema)

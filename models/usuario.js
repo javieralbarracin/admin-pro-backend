@@ -15,7 +15,8 @@ const UsuarioSchema = Schema({
         required:true
     },
     img:{
-        type:String
+        type:String,
+        required:false
     },
     role:{
         type:String,
@@ -30,7 +31,8 @@ const UsuarioSchema = Schema({
 }) 
 
 UsuarioSchema.method('toJSON', function(){
-    const { _v, _id, password, ...object } = this.toObject();
+    //desestructurar campos a ocultar
+    const { __v, _id, password, ...object } = this.toObject();
     object.uid = _id;
     return object;
 })
