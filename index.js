@@ -18,9 +18,13 @@ app.use( express.json() );
 //Base de Datos
 dbConnection();
 
+
 //pass: Marzo.2020
 //dbUser
 //cnn: 'mongodb+srv://dbUser:*****@cluster0.6oao3.mongodb.net/hospitaldb?authSource=admin&replicaSet=atlas-l39772-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true'
+
+// Directorio publico
+app.use( express.static('public') )
 
 //Rutas
 app.use('/api/usuarios',require('./routes/usuarios'))
