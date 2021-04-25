@@ -4,7 +4,7 @@ const bcryptjs  = require('bcryptjs');
 
 const  Usuario = require('../models/usuario');
 const { generarJWT } = require('../helpers/jwt');
-const { verify }= require('..//helpers/google-verify');
+const { verify }= require('../helpers/google-verify');
 
 const login = async(req,res=response) => {
 
@@ -81,6 +81,22 @@ const googleSignIn = async (req, res=response) =>{
     }
     
 }
+
+const renewToken = async(req, res = response) => {
+
+    const uid = req.uid;
+
+    // Generar el TOKEN - JWT
+    const token = await generarJWT( uid );
+            
+    const usuario = await Usuario.findById( uid );
+    res.json({
+        ok: true,
+        token,
+        usuario
+    });
+
+}
 module.exports = {
-    login, googleSignIn
+    login, googleSignIn, renewToken
 }

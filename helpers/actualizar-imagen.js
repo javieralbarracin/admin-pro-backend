@@ -17,10 +17,12 @@ const actualizarImagen = async (tipo, id, nombreArchivo)=>{
                 return false
             }
             //validar si tiene imagen previamente asignada
-            pathViejo = `./uploads/usuarios/${ usuario.img }`;
+            pathViejo = `./uploads/usuarios/${ (usuario.img=='') ?'-':usuario.img}`;
+            
             borrarImagen(pathViejo)
             usuario.img = nombreArchivo;
             await usuario.save();
+            
             return true;
             break;
         case 'hospitales':
@@ -29,10 +31,10 @@ const actualizarImagen = async (tipo, id, nombreArchivo)=>{
                 return false
             }
              //validar si tiene imagen previamente asignada
-             pathViejo = `./uploads/hospitales/${ hospital.img }`;
+             pathViejo = `./uploads/hospitales/${ (hospital.img=='') ?'-':hospital.img }`;
              borrarImagen(pathViejo)
             hospital.img = nombreArchivo;
-            await medico.save();
+            await hospital.save();
             return true;
             break;
         case 'medicos':
@@ -41,7 +43,7 @@ const actualizarImagen = async (tipo, id, nombreArchivo)=>{
                 return false
             }
             //validar si tiene imagen previamente asignada
-            pathViejo = `./uploads/medicos/${ medico.img }`;
+            pathViejo = `./uploads/medicos/${ (medico.img==''?'-':medico.img) }`;
             borrarImagen(pathViejo)
             medico.img = nombreArchivo;
             await medico.save();

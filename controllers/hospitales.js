@@ -26,6 +26,7 @@ const crearHospital = async (req,res=response)=>{
         })
         
         const uid = req.uid
+        //console.log('ui-->',uid)
         const hospital = new Hospital( {
                                 usuario:uid,
                                 ...req.body
@@ -48,10 +49,10 @@ const crearHospital = async (req,res=response)=>{
     }
 }
 const actualizarHospital = async (req,res=response)=>{
-    const uid = req.params.id; 
+    const hid = req.params.id; 
     try {
         //console.warn('el id enviado->',uid)
-        const hospitalDB = await Hospital.findById(uid);
+        const hospitalDB = await Hospital.findById(hid);
         if ( !hospitalDB ) {
             return res.status(204).json({
                 ok: false,
@@ -64,7 +65,7 @@ const actualizarHospital = async (req,res=response)=>{
 
         if ( hospitalDB.nombre !== nombre ) {
 
-            const existeHospital = await Hospital.findOne({ email });
+            const existeHospital = await Hospital.findOne({ nombre });
             if ( existeHospital ) {
                 return res.status(400).json({
                     ok: false,
@@ -74,7 +75,7 @@ const actualizarHospital = async (req,res=response)=>{
         }
         
         campos.nombre = nombre;
-        const hospitalActualizado = await Hospital.findByIdAndUpdate( uid, campos, { new: true } );
+        const hospitalActualizado = await Hospital.findByIdAndUpdate( hid, campos, { new: true } );
 
         res.json({
             ok: true,
@@ -89,17 +90,17 @@ const actualizarHospital = async (req,res=response)=>{
     }
 }
 const eliminarHospital = async(req,res=response)=>{
-    const uid = req.params.id;
+    const hid = req.params.id;
     try {
         //validacion del usuario a eliminar
-        const hospitalDB = await Hospital.findById(uid);
+        const hospitalDB = await Hospital.findById(hid);
         if ( !hospitalDB ) {
             return res.status(204).json({
                 ok: false,
                 msg: 'No existe un hospital por ese id'
             });
         }
-        await Hospital.findByIdAndDelete(uid);
+        await Hospital.findByIdAndDelete(hid);
 
         res.json({
             ok: true,
